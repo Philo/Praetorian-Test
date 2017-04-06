@@ -1,2 +1,37 @@
-﻿
-@RenderBody()
+﻿<!DOCTYPE html>
+<html lang="en" class="no-webfonts no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="{{assetPath}}/css/styles.css">
+        <title>Praetorian</title>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-touch-fullscreen" content="YES">
+        <meta property="og:title" content="">
+        <meta property="og:url" content="">
+        <meta property="og:description" content="">
+        <meta property="og:site_name" content="">
+        <meta name="application-name" content="">
+        <link rel="dns-prefetch" href="">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    </head>
+
+<body>
+<header><nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home"><img src="~/img/logo.svg" style="max-height: 35px" /> Praetorian Protect</a>
+    </nav>
+</header>
+<div class="container">
+    @RenderBody()
+</div>
+    
+<footer>
+    
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</body>
+</html>

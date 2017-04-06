@@ -51,11 +51,13 @@ namespace Praetorian.Proxy
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataProtectionProvider dataProtectionProvider)
         {
             loggerFactory.AddConsole();
-            app.UsePraetorianProxy();
+            app.UseStaticFiles();
+
             app.UseMvc(o =>
             {
                 o.MapRoute("default", "_praetorian/{controller=Home}/{action=Index}/{id?}");
             });
+            app.UsePraetorianProxy();
         }
     }
 }

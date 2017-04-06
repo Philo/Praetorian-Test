@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection;
@@ -41,6 +42,20 @@ namespace Praetorian.Proxy.Controllers
             {
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<PraetorianProject>> GetAllProjects()
+        {
+            var connectionString = configuration.GetConnectionString("default");
+
+            var account = CloudStorageAccount.Parse(connectionString);
+            var tableClient = account.CreateCloudTableClient();
+            var table = tableClient.GetTableReference("projects");
+
+            var query = new TableQuery<PraetorianProject>();
+
+            var result = await table.ExecuteQuerySegmentedAsync(query, new TableContinuationToken());
+            return result.Results.ToList();
         }
 
         public async Task<PraetorianProject> GetProject(string clientName, string projectName)

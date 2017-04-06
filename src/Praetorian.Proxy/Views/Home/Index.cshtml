@@ -1,1 +1,35 @@
-﻿<h1>test</h1>
+﻿@model IEnumerable<Praetorian.Proxy.Controllers.PraetorianProject>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col col-lg-5" style="width:100%">
+                <img src="~/img/logo.svg" />
+            </div>
+            <div class="col">
+                <h1 class="display-3">Praetorian Protect</h1>
+            </div>
+        </div>
+        <hr />
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mi justo, semper tristique libero non, commodo laoreet nulla. Etiam rutrum, leo ac vulputate ultricies, justo dui aliquam leo, nec malesuada orci augue sit amet quam. Curabitur at interdum risus. Nunc pellentesque nunc quis sem scelerisque rhoncus. Duis in lorem non mi lobortis molestie. Curabitur non lectus egestas, pulvinar leo a, vehicula sem. Nunc erat lorem, consequat ut iaculis ac, efficitur et mi.</p>
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    @foreach (var project in Model)
+    {
+        <div class="col-sm-6">
+            <div class="card @(project.Active ? "" : "text-muted")">
+                <div class="card-block">
+                    <h2 class="card-title">@project.Project</h2>
+                    <h5 class="card-subtitle text-muted mb-2">@project.Client</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Home" asp-action="Index" asp-route-clientName="@project.Client" asp-route-projectName="@project.Project" class="btn btn-primary @(project.Active ? "" : "disabled")"><i class="icon "></i> View</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -14,9 +14,10 @@ namespace Praetorian.Proxy.Controllers
             this.praetorianProjectService = praetorianProjectService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var projects = await praetorianProjectService.GetAllProjects();
+            return View(projects);
         }
 
         [HttpGet("_praetorian/{clientName}/{projectName}")]
