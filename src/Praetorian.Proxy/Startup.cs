@@ -23,7 +23,8 @@ namespace Praetorian.Proxy
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(environment.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddUserSecrets<Startup>();
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();

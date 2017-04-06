@@ -25,8 +25,6 @@ namespace Praetorian.Proxy.Middleware
 
         public async Task Invoke(HttpContext context, IPraetorianFileProviderFactory praetorianFileProviderFactory)
         {
-            logger.LogInformation($"Requesting {context.Request.Path} | {context.Request.Host}");
-
             if (IsPraetorianRequest(context))
             {
                 await next(context);
@@ -52,25 +50,5 @@ namespace Praetorian.Proxy.Middleware
                 }
             }
         }
-
-        //private bool HasSiteCookie(IRequestCookieCollection requestCookies)
-        //{
-        //    return requestCookies.ContainsKey("__praetorianTicket");
-        //}
-
-        //private SiteOptions GetOptions(HttpContext context, ITimeLimitedDataProtector dataProtector)
-        //{
-        //    if (HasSiteCookie(context.Request.Cookies))
-        //    {
-        //        var encryptedTicket = string.Empty;
-        //        context.Request.Cookies.TryGetValue("__praetorianTicket", out encryptedTicket);
-        //        var ticket = dataProtector.Unprotect(encryptedTicket);
-        //        return new SiteOptions()
-        //        {
-        //            ContainerName = ticket
-        //        };
-        //    }
-        //    return null;
-        //}
     }
 }
