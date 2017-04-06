@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Praetorian.Proxy.StorageProviders
 {
-    public interface IAzureFileProvider
+    public interface IPraetorianFileProvider
     {
         Task<bool> FileExistsAsync(string subpath);
         Task WriteToStreamAsync(string subpath, HttpResponse response);

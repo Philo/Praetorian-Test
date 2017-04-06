@@ -1,19 +1,27 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Praetorian.Proxy.StorageProviders
 {
-    public class AzureFileProvider : IAzureFileProvider
+    public class ClientEntity : TableEntity
     {
+        public string SasUri { get; set; }
+        public string ContainerName { get; set; }
+    }
+
+    public class AzurePraetorianFileProvider : IPraetorianFileProvider
+    {
+        private readonly string defaultDocument;
         private readonly CloudBlobContainer blobContainer;
 
-        public AzureFileProvider()
+        public AzurePraetorianFileProvider(Uri sasUri, string containerName, string defaultDocument = "index.html")
         {
-            var account = CloudStorageAccount.DevelopmentStorageAccount;
-            var blobClient = account.CreateCloudBlobClient();
-            blobContainer = blobClient.GetContainerReference("sli-portal");
+            this.defaultDocument = defaultDocument;
+            var blobClient = new CloudBlobClient(sasUri);
+            blobContainer = blobClient.GetContainerReference(containerName);
         }
 
         public string GetBlobReferencePath(string subpath)
@@ -61,14 +69,13 @@ namespace Praetorian.Proxy.StorageProviders
                     response.Headers.Add("Content-Length", reference.Properties.Length.ToString());
 
                     await reference.DownloadToStreamAsync(response.Body).ConfigureAwait(false);
-                    // response.StatusCode = (int) HttpStatusCode.OK;
                 }
             }
         }
 
         private string GetDefaultDocument()
         {
-            return "index.html";
+            return defaultDocument;
         }
     }
 }
