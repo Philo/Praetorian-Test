@@ -1,43 +1,12 @@
-using System;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Praetorian.Proxy.Controllers;
-using Praetorian.Proxy.StorageProviders;
 
 namespace Praetorian.Proxy.Middleware
 {
-    public interface IPraetorianFileProviderFactory
-    {
-        Task<IPraetorianFileProvider> GetProviderAsync();
-    }
-
-    public class PraetorianFileProviderFactory : IPraetorianFileProviderFactory
-    {
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IPraetorianProjectService praetorianProjectService;
-
-        public PraetorianFileProviderFactory(IHttpContextAccessor httpContextAccessor, IPraetorianProjectService praetorianProjectService)
-        {
-            this.httpContextAccessor = httpContextAccessor;
-            this.praetorianProjectService = praetorianProjectService;
-        }
-
-        public async Task<IPraetorianFileProvider> GetProviderAsync()
-        {
-            var request = httpContextAccessor.HttpContext.Request;
-            var token = request.Cookies.GetPraetorianSiteCookieToken();
-            var project = await praetorianProjectService.GetProjectFromSiteReferenceToken(token);
-            if (project == null || !project.Active)
-            {
-                return null;
-            }
-
-            return new AzurePraetorianFileProvider(new Uri(project.SasUri), project.ContainerName, project.DefaultDocument);
-        }
-    }
-
     internal class PraetorianProxyMiddleware
     {
         private readonly RequestDelegate next;
@@ -103,10 +72,5 @@ namespace Praetorian.Proxy.Middleware
         //    }
         //    return null;
         //}
-    }
-
-    public class SiteOptions
-    {
-        public string ContainerName { get; set; }
     }
 }

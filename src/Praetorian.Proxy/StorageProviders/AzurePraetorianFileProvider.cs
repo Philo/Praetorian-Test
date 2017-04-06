@@ -2,16 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Praetorian.Proxy.StorageProviders
 {
-    public class ClientEntity : TableEntity
-    {
-        public string SasUri { get; set; }
-        public string ContainerName { get; set; }
-    }
-
     public class AzurePraetorianFileProvider : IPraetorianFileProvider
     {
         private readonly string defaultDocument;
