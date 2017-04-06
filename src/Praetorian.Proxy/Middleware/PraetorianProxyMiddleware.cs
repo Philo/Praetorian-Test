@@ -1,11 +1,10 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Praetorian.Proxy.StorageProviders;
 
-namespace Praetorian.Proxy
+namespace Praetorian.Proxy.Middleware
 {
     internal class PraetorianProxyMiddleware
     {

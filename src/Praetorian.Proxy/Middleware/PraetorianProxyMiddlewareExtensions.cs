@@ -1,8 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 
-namespace Praetorian.Proxy
+namespace Praetorian.Proxy.Middleware
 {
     internal static class PraetorianProxyMiddlewareExtensions
     {

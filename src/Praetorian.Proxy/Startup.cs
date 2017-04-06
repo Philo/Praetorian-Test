@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Praetorian.Proxy.Middleware;
 using Praetorian.Proxy.StorageProviders;
 
 namespace Praetorian.Proxy

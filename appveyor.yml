@@ -1,0 +1,23 @@
+version: {build}
+image: Visual Studio 2017
+init:
+- cmd: git config --global core.autocrlf true
+environment:
+  website_name: praetorianproxy
+  website_username: $praetorianproxy
+build_script:
+- ps: .\build.ps1 -Target "CI" -Verbosity "Normal" -Configuration "Release"
+test: off
+deploy:
+- provider: WebDeploy
+  server: https://$(website_name).scm.azurewebsites.net/msdeploy.axd?site=$(website_name)
+  website: $(website_name)
+  username: $(website_username)
+  password:
+    secure: FSiBg6mrDF1NbWR5DQ8YxhN+ih7do31JT3AWms0R1S0=
+  aspnet_core: true
+  remove_files: true
+  app_offline: true
+  aspnet_core_force_restart: true
+  on:
+    branch: master

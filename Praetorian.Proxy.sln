@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praetorian.Proxy", "Praetorian.Proxy\Praetorian.Proxy.csproj", "{441DF1BD-D5B1-4BCC-9881-C838987CA112}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praetorian.Proxy", "src\Praetorian.Proxy\Praetorian.Proxy.csproj", "{441DF1BD-D5B1-4BCC-9881-C838987CA112}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{09988191-6073-4950-B266-F4BFCDCF2C95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E5E4D807-1455-44FC-8E4D-7D69DCDC352F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{441DF1BD-D5B1-4BCC-9881-C838987CA112} = {09988191-6073-4950-B266-F4BFCDCF2C95}
 	EndGlobalSection
 EndGlobal
