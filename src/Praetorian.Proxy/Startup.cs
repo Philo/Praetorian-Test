@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Praetorian.Proxy.Controllers;
+using Microsoft.Extensions.Options;
 using Praetorian.Proxy.Middleware;
 using Praetorian.Proxy.Services;
 using Praetorian.Proxy.StorageProviders;
@@ -25,15 +26,13 @@ namespace Praetorian.Proxy
 
     internal static class PraetorianServiceCollectionExtensions
     {
-        internal static IServiceCollection AddPraetorianProtect(this IServiceCollection serviceCollection)
+        internal static IServiceCollection AddPraetorianProtect(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             serviceCollection.AddScoped<IPraetorianFileProvider, AzurePraetorianFileProvider>();
             serviceCollection.AddScoped<IPraetorianProjectService, PraetorianProjectService>();
             serviceCollection.AddScoped<IPraetorianFileProviderFactory, PraetorianFileProviderFactory>();
-            serviceCollection.Configure<PraetorianOptions>(options =>
-            {
-            });
+            serviceCollection.Configure<PraetorianOptions>(configuration.GetSection(nameof(PraetorianOptions)));
 
             return serviceCollection;
         }
@@ -68,17 +67,21 @@ namespace Praetorian.Proxy
             services.AddMvc();
 
             services.AddTransient(p => Configuration);
-            services.AddPraetorianProtect();
+            services.AddPraetorianProtect(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataProtectionProvider dataProtectionProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataProtectionProvider dataProtectionProvider, IOptions<PraetorianOptions> options)
         {
             loggerFactory.AddConsole();
-            app.UsePraetorianProtect(o => o
-                .WithHost<SiteSettings>(s => s.Host)
-                .WithAzureTableConnectionString("")
-            );
+
+            app.UsePraetorianProtect();
+
+            //app.UsePraetorianProtect(o => o
+            //    .WithHost<SiteSettings>(s => s.Host)
+            //    .WithCookieDomain<PraetorianOptions>(s => s.CookieDomain)
+            //    .WithAzureTableConnectionString("")
+            //);
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

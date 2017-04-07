@@ -16,9 +16,32 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     </head>
 
-<body>
-<header><nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-        <a class="navbar-brand" asp-action="Index" asp-controller="Home"><img src="~/img/logo.svg" style="max-height: 35px" /> Praetorian Protect</a>
+<body style="margin-top:70px">
+<header>
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home"><img src="~/img/logo.svg" class="d-inline-block align-top" height="30"/> Praetorian Protect</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="nav-item nav-link" asp-controller="Projects">Projects</a>
+                }
+            </div>
+            
+            <div class="navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="nav-item nav-link" asp-controller="Logout" asp-action="Index">Logout (@User.Identity.Name)</a>
+                }
+                else
+                {
+                    <a class="nav-item nav-link" asp-controller="Login" asp-action="Index">Login</a>
+                }
+            </div>
+        </div>
     </nav>
 </header>
 <div class="container">

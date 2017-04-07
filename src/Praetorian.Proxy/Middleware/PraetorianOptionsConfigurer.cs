@@ -15,15 +15,28 @@ namespace Praetorian.Proxy.Middleware
             this.options = options;
         }
 
+        public PraetorianOptionsConfigurer WithCookieDomain(string domain)
+        {
+            options.CookieDomain = domain;
+            return this;
+        }
+
         public PraetorianOptionsConfigurer WithHost(string host)
         {
             options.Host = host;
             return this;
         }
 
+        public PraetorianOptionsConfigurer WithCookieDomain<TOptions>(Func<TOptions, string> optionFunc) where TOptions : class, new()
+        {
+            var hostOption = serviceProvider.GetRequiredService<IOptions<TOptions>>()?.Value;
+            var host = optionFunc(hostOption);
+            return WithCookieDomain(host);
+        }
+
         public PraetorianOptionsConfigurer WithHost<TOptions>(Func<TOptions, string> hostOptionFunc) where TOptions : class, new()
         {
-            var hostOption = ServiceProviderServiceExtensions.GetRequiredService<IOptions<TOptions>>(serviceProvider)?.Value;
+            var hostOption = serviceProvider.GetRequiredService<IOptions<TOptions>>()?.Value;
             var host = hostOptionFunc(hostOption);
             return WithHost(host);
         }
