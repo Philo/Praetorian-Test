@@ -1,0 +1,21 @@
+﻿@using Praetorian.Proxy.Domain
+@model IEnumerable<Praetorian.Proxy.Domain.PraetorianProject>
+
+<div class="row">
+    @foreach (var project in Model)
+    {
+        <div class="col-sm-6">
+            <div class="card @(project.Active ? "" : "text-muted")">
+                <div class="card-block">
+                    <h2 class="card-title">@project.Project</h2>
+                    <h5 class="card-subtitle text-muted mb-2">@project.Client</h5>
+                    @*<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>*@
+
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Home" asp-action="Index" asp-route-clientName="@project.Client" asp-route-projectName="@project.Project" class="btn btn-primary @(project.Active ? "" : "disabled")"><i class="icon "></i> View</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
