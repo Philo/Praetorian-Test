@@ -13,10 +13,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Praetorian.Proxy.Controllers;
 using Praetorian.Proxy.Middleware;
+using Praetorian.Proxy.Services;
 using Praetorian.Proxy.StorageProviders;
 
 namespace Praetorian.Proxy
 {
+    public class SiteSettings
+    {
+        public string Host { get; set; }
+    }
+
     public class Startup
     {
         public Startup(IHostingEnvironment environment)
@@ -27,6 +33,7 @@ namespace Praetorian.Proxy
                 .AddUserSecrets<Startup>();
 
             builder.AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
@@ -37,6 +44,9 @@ namespace Praetorian.Proxy
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+
+            services.Configure<SiteSettings>(Configuration.GetSection(nameof(SiteSettings)));
+
             services.AddDataProtection();
 
             services.AddMvc();
@@ -46,19 +56,16 @@ namespace Praetorian.Proxy
             services.AddScoped<IPraetorianFileProvider, AzurePraetorianFileProvider>();
             services.AddScoped<IPraetorianProjectService, PraetorianProjectService>();
             services.AddScoped<IPraetorianFileProviderFactory, PraetorianFileProviderFactory>();
+            services.Configure<PraetorianOptions>(Configuration.GetSection(nameof(PraetorianOptions)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataProtectionProvider dataProtectionProvider)
         {
             loggerFactory.AddConsole();
+            app.UsePraetorianProxy(o => o.WithHost("praetorianprotect.localtest.me"));
             app.UseStaticFiles();
-
-            app.UseMvc(o =>
-            {
-                o.MapRoute("default", "_praetorian/{controller=Home}/{action=Index}/{id?}");
-            });
-            app.UsePraetorianProxy();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

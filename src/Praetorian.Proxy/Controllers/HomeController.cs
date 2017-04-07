@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Praetorian.Proxy.Extensions;
+using Praetorian.Proxy.Services;
 
 namespace Praetorian.Proxy.Controllers
 {
@@ -20,7 +19,7 @@ namespace Praetorian.Proxy.Controllers
             return View(projects);
         }
 
-        [HttpGet("_praetorian/{clientName}/{projectName}")]
+        [HttpGet("{clientName}/{projectName}")]
         public async Task<IActionResult> Index(string clientName, string projectName)
         {
             var project = await praetorianProjectService.GetProject(clientName, projectName);
@@ -29,10 +28,10 @@ namespace Praetorian.Proxy.Controllers
                 return NotFound();
             }
 
-            var token = praetorianProjectService.GenerateSiteReferenceToken(project);
-            HttpContext.Response.Cookies.AddPraetorianSiteCookie(token);
+            //var token = praetorianProjectService.GenerateSiteReferenceToken(project);
+            // HttpContext.Response.Cookies.AddPraetorianSiteCookie(token, project);
 
-            return Redirect("/");
+            return Redirect(project.BuildProjectUri(HttpContext));
         }
     }
 }

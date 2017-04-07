@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using Praetorian.Proxy.Domain;
 
-namespace Praetorian.Proxy.Controllers
+namespace Praetorian.Proxy.Services
 {
     public class PraetorianProjectService : IPraetorianProjectService
     {

@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Praetorian.Proxy.Controllers;
+using Praetorian.Proxy.Extensions;
+using Praetorian.Proxy.Services;
 using Praetorian.Proxy.StorageProviders;
 
 namespace Praetorian.Proxy.Middleware
@@ -19,9 +21,16 @@ namespace Praetorian.Proxy.Middleware
 
         public async Task<IPraetorianFileProvider> GetProviderAsync()
         {
-            var request = httpContextAccessor.HttpContext.Request;
-            var token = request.Cookies.GetPraetorianSiteCookieToken();
-            var project = await praetorianProjectService.GetProjectFromSiteReferenceToken(token);
+            //var request = httpContextAccessor.HttpContext.Request;
+            
+            //var token = request.Cookies.GetPraetorianSiteCookieToken();
+            //var project = await praetorianProjectService.GetProjectFromSiteReferenceToken(token);
+
+            var clientName = httpContextAccessor.HttpContext.Items["_pclient"]?.ToString();
+            var projectName = httpContextAccessor.HttpContext.Items["_pproject"]?.ToString();
+
+            var project = await praetorianProjectService.GetProject(clientName, projectName);
+
             if (project == null || !project.Active)
             {
                 return null;
