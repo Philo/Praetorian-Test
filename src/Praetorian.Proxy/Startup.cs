@@ -23,6 +23,22 @@ namespace Praetorian.Proxy
         public string Host { get; set; }
     }
 
+    internal static class PraetorianServiceCollectionExtensions
+    {
+        internal static IServiceCollection AddPraetorianProtect(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            serviceCollection.AddScoped<IPraetorianFileProvider, AzurePraetorianFileProvider>();
+            serviceCollection.AddScoped<IPraetorianProjectService, PraetorianProjectService>();
+            serviceCollection.AddScoped<IPraetorianFileProviderFactory, PraetorianFileProviderFactory>();
+            serviceCollection.Configure<PraetorianOptions>(options =>
+            {
+            });
+
+            return serviceCollection;
+        }
+    }
+
     public class Startup
     {
         public Startup(IHostingEnvironment environment)
@@ -52,18 +68,18 @@ namespace Praetorian.Proxy
             services.AddMvc();
 
             services.AddTransient(p => Configuration);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IPraetorianFileProvider, AzurePraetorianFileProvider>();
-            services.AddScoped<IPraetorianProjectService, PraetorianProjectService>();
-            services.AddScoped<IPraetorianFileProviderFactory, PraetorianFileProviderFactory>();
-            services.Configure<PraetorianOptions>(Configuration.GetSection(nameof(PraetorianOptions)));
+            services.AddPraetorianProtect();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IDataProtectionProvider dataProtectionProvider)
         {
             loggerFactory.AddConsole();
-            app.UsePraetorianProxy(o => o.WithHost("praetorianprotect.localtest.me"));
+            app.UsePraetorianProtect(o => o
+                .WithHost<SiteSettings>(s => s.Host)
+                .WithAzureTableConnectionString("")
+            );
+
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }

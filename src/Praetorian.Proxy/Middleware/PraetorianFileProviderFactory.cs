@@ -29,6 +29,11 @@ namespace Praetorian.Proxy.Middleware
             var clientName = httpContextAccessor.HttpContext.Items["_pclient"]?.ToString();
             var projectName = httpContextAccessor.HttpContext.Items["_pproject"]?.ToString();
 
+            if (string.IsNullOrWhiteSpace(clientName) || string.IsNullOrWhiteSpace(projectName))
+            {
+                return null;
+            }
+
             var project = await praetorianProjectService.GetProject(clientName, projectName);
 
             if (project == null || !project.Active)

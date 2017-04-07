@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Praetorian.Proxy
 {
@@ -7,16 +9,15 @@ namespace Praetorian.Proxy
     {
         public static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder().AddEnvironmentVariables().Build();
+
             var host = new WebHostBuilder()
+                .UseConfiguration(config)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                .UseAzureAppServices()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
-#if DEBUG
-                // TODO : host string here
-                .UseUrls("http://*.praetorianprotect.localtest.me:5000")
-#endif
                 .Build();
 
             host.Run();
