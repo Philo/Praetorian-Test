@@ -19,11 +19,6 @@ using Praetorian.Proxy.StorageProviders;
 
 namespace Praetorian.Proxy
 {
-    public class SiteSettings
-    {
-        public string Host { get; set; }
-    }
-
     internal static class PraetorianServiceCollectionExtensions
     {
         internal static IServiceCollection AddPraetorianProtect(this IServiceCollection serviceCollection, IConfiguration configuration)
@@ -60,8 +55,6 @@ namespace Praetorian.Proxy
         {
             services.AddOptions();
 
-            services.Configure<SiteSettings>(Configuration.GetSection(nameof(SiteSettings)));
-
             services.AddDataProtection();
 
             services.AddMvc();
@@ -76,12 +69,6 @@ namespace Praetorian.Proxy
             loggerFactory.AddConsole();
 
             app.UsePraetorianProtect();
-
-            //app.UsePraetorianProtect(o => o
-            //    .WithHost<SiteSettings>(s => s.Host)
-            //    .WithCookieDomain<PraetorianOptions>(s => s.CookieDomain)
-            //    .WithAzureTableConnectionString("")
-            //);
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
