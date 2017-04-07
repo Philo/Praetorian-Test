@@ -13,6 +13,10 @@ namespace Praetorian.Proxy
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
+#if DEBUG
+                // TODO : host string here
+                .UseUrls("http://*.praetorianprotect.localtest.me:5000")
+#endif
                 .Build();
 
             host.Run();

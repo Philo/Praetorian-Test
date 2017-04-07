@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Praetorian.Proxy.Domain;
 
-namespace Praetorian.Proxy.Controllers
+namespace Praetorian.Proxy.Services
 {
     public interface IPraetorianProjectService
     {

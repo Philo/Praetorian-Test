@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Praetorian.Proxy.Controllers.PraetorianProject>
+﻿@using Praetorian.Proxy.Domain
+@model IEnumerable<Praetorian.Proxy.Domain.PraetorianProject>
 
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
@@ -11,8 +12,15 @@
             </div>
         </div>
         <hr />
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mi justo, semper tristique libero non, commodo laoreet nulla. Etiam rutrum, leo ac vulputate ultricies, justo dui aliquam leo, nec malesuada orci augue sit amet quam. Curabitur at interdum risus. Nunc pellentesque nunc quis sem scelerisque rhoncus. Duis in lorem non mi lobortis molestie. Curabitur non lectus egestas, pulvinar leo a, vehicula sem. Nunc erat lorem, consequat ut iaculis ac, efficitur et mi.</p>
-        <hr/>
+        <p>
+            <i class="lead">
+                E praetorianis data (cohortes Praetoriae) quod in promotione romanae reipublicae serva, et dux satellitum scriptor personali et in tempus imperatoria, cum electa manu custodiae et Romae imperatorem.
+            </i>
+        </p>
+        <p>
+            <small class="lead text-muted">The Praetorian Guard (cohortes praetoriae) was, in the Roman Republic, a commander's personal bodyguard and then, in the imperial period, an elite force assigned to protect the emperor and Rome.</small>
+        </p>
+
     </div>
 </div>
 <div class="row">
@@ -23,7 +31,7 @@
                 <div class="card-block">
                     <h2 class="card-title">@project.Project</h2>
                     <h5 class="card-subtitle text-muted mb-2">@project.Client</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    @*<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>*@
 
                 </div>
                 <div class="card-footer">
